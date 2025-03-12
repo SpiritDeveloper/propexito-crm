@@ -1,0 +1,38 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    restart: always
+    command: >
+      sh -c 'sh ./docker/app/docker-entrypoint-mongo.sh && gunicorn -w 5 -b 0.0.0.0:3000 --timeout 600 'main:app''
+    volumes:
+      - .:/app
+      - ./app:/var/lib/mysql
+    ports:
+      - 3000:3000
+    expose:
+      - 3000
+    networks:
+      - app-v1
+    depends_on:
+      - mongo
+      
+  mongo:
+    image: mongo:5.0.0
+    command: mongod --port 27017
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: propexito
+    ports:
+      - 27017:27017   
+    networks:
+      - app-v1
+        
+networks:
+  app-v1:
+    driver: bridge
+
