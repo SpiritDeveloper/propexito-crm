@@ -8,7 +8,7 @@ class createUrlLatamcashierInputSchema(Schema):
     email = fields.String(required=True)
     country = fields.String(required=True, validate=Length(min=2, max=2))
     phone = fields.String(required=True)
-    lada = fields.String(required=True)
+    country_phone_code = fields.String(required=True)
     amount = fields.Float(required=True)
     client_id = fields.String(required=True)
 
