@@ -1,5 +1,5 @@
-def validate(object, attribute):
+def validateAttribute(object, attribute):
     try:
         return object[attribute]
-    except:
+    except KeyError:
         return False

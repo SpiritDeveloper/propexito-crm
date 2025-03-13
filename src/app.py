@@ -1,6 +1,7 @@
 # Import controllers
 from .controllers import main, propexito
-import coloredlogs, logging
+import coloredlogs
+import logging
 from dotenv import load_dotenv
 from flask import Flask
 from flask_smorest import Api
@@ -8,6 +9,7 @@ from flask_cors import CORS
 
 # load configuration .env
 load_dotenv()
+
 
 # configuration
 class Config:
@@ -23,9 +25,7 @@ class Config:
     )
     OPENAPI_SWAGGER_UI_PATH = "/documentation"
     OPENAPI_SWAGGER_UI_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.24.2/"
-    API_SPEC_OPTIONS = {
-        "info": {"description": "Proexito Documentation"}
-    }
+    API_SPEC_OPTIONS = {"info": {"description": "Proexito Documentation"}}
     SECRET_KEY = "secret"
 
 
@@ -41,15 +41,9 @@ app.config.from_object(Config)
 api = Api(app)
 CORS(
     app,
-    resources={
-        r"/*": {
-            "origins": "*",
-            "allow_headers": "*",
-            "expose_headers": "*"
-        }
-    },
+    resources={r"/*": {"origins": "*", "allow_headers": "*", "expose_headers": "*"}},
 )
-  
+
 # register modules
 api.register_blueprint(main)
 api.register_blueprint(propexito)

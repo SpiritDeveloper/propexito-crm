@@ -1,5 +1,6 @@
 from flask import abort
 
+
 class Error(Exception):
     def __init__(self, message):
         self.message = message

@@ -1,2 +1,4 @@
-from .main import *
-from .propexito_controller import *
+from .main import main
+from .propexito_controller import propexito
+
+__all__ = ["main", "propexito"]

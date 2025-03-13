@@ -1,6 +1,7 @@
 from marshmallow import Schema, fields, ValidationError
 from marshmallow.validate import Length
 
+
 class createUrlLatamcashierInputSchema(Schema):
     name = fields.String(required=True, validate=Length(min=3))
     firstname = fields.String(required=True, validate=Length(min=3))
@@ -10,10 +11,12 @@ class createUrlLatamcashierInputSchema(Schema):
     phone = fields.String(required=True)
     country_phone_code = fields.String(required=True)
     amount = fields.Float(required=True)
-    client_id = fields.String(required=True)
+    external_user_id = fields.String(required=True)
+    transaction_id = fields.String(required=True)
 
     class Meta:
         ordered = True
+
 
 class createUrlLatamcashierInput:
     def create(body: createUrlLatamcashierInputSchema):

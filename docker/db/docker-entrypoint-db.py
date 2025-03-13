@@ -5,7 +5,12 @@ import logging
 
 load_dotenv()
 
-db = "mongodb://{}:{}@{}:{}/".format(getenv("MONGO_DB_USER"), getenv("MONGO_DB_PASSWORD"), getenv("MONGO_DB_HOST"), getenv("MONGO_DB_PORT"))
+db = "mongodb://{}:{}@{}:{}/".format(
+    getenv("MONGO_DB_USER"),
+    getenv("MONGO_DB_PASSWORD"),
+    getenv("MONGO_DB_HOST"),
+    getenv("MONGO_DB_PORT"),
+)
 
 client = MongoClient(db, authSource="admin")
 

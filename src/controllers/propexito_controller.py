@@ -5,16 +5,24 @@ from werkzeug.exceptions import BadRequest
 from ..dto import (
     createUrlLatamcashierInput,
     createUrlLatamcashierInputSchema,
+    getUserByExternalUserIdInput,
+    getUserByExternalUserIdInputSchema,
 )
 from ..service.propexito_service import PropexitoService
 
-propexito = Blueprint("propexito", "propexito", url_prefix="/api/propexito", description="Propexito Services")
+propexito = Blueprint(
+    "propexito",
+    "propexito",
+    url_prefix="/api/propexito",
+    description="Propexito Services",
+)
+
 
 class PropexitoController(MethodView):
     @propexito.errorhandler(404)
     def resource_not_found(e):
         return (
-            jsonify(code=404, status=False,  error=[str(e.description)]),
+            jsonify(code=404, status=False, error=[str(e.description)]),
             404,
         )
 
@@ -24,7 +32,7 @@ class PropexitoController(MethodView):
             jsonify(code=402, message="Bad Input", error=str(e.exc), status=False),
             422,
         )
-    
+
     propexito.register_error_handler(422, handle_bad_request)
 
     @propexito.route("/generate-url-latamcashier", methods=["GET"])
@@ -34,10 +42,17 @@ class PropexitoController(MethodView):
         request = createUrlLatamcashierInput.create(body)
         response = PropexitoService().generate_url_latamcashier(request)
         return response
-    
+
     @propexito.route("/get-transactions", methods=["GET"])
     def get():
         """Get transactions"""
         response = PropexitoService().get_transactions()
         return response
     
+    @propexito.route("/get-user-by-id", methods=["GET"])
+    @propexito.arguments(getUserByExternalUserIdInputSchema, location="query")
+    def get_user_by_id(body: getUserByExternalUserIdInputSchema):
+        """Get user by id"""
+        request = getUserByExternalUserIdInput.create(body)
+        response = PropexitoService().get_user_by_id(request)
+        return response

@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields, ValidationError, EXCLUDE
+from marshmallow import Schema, fields, ValidationError
 
 
 class responseSchema(Schema):
