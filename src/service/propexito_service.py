@@ -49,27 +49,26 @@ class PropexitoService:
         response = {}
         response["success"] = True
         response["message"] = "Transacciones obtenidas correctamente"
-        response["transactions"] = {}
+        response["transaction"] = {}
+
+        import requests
 
         url = f"{self.configuration_microservice}/transactions/review/status/reference_transaction"
-
-        headers = {"accept": "application/json"}
-
-        body = {
+        headers = {
+            "accept": "application/json",
+            "Content-Type": "application/json"
+        }
+        data = {
             "reference_id": transaction_id
         }
 
         try:
-            api_response = requests.post(url, headers=headers, json=body)
-            api_response.raise_for_status()
-            response["transactions"] = api_response.json()
-        except requests.exceptions.RequestException as e:
+            response_api = requests.post(url, headers=headers, json=data)
+            response["transaction"] = response_api.json()
+        except Exception as e:
             logging.error(f"Error al obtener transacciones: {str(e)}")
-            response = {
-                "success": False,
-                "message": "Error al obtener transacciones",
-                "transactions": [],
-            }
+            response["success"] = False
+            response["message"] = "Error al obtener transacciones"
 
         return response
 
