@@ -1,5 +1,5 @@
-from ..dto import createUrlLatamcashierInput, getUserByExternalUserIdInput
-import requests
+from ..dto import createUrlLatamcashierInput, getUserByExternalUserIdInput, getTransactionByTransactionIdInput
+import requests 
 from ..model.leads import Leads
 from os import getenv
 from dotenv import load_dotenv
@@ -43,7 +43,7 @@ class PropexitoService:
 
         return response
 
-    def get_transactions_by_transaction_id(self, transaction_id: str):
+    def get_transactions_by_transaction_id(self, request: getTransactionByTransactionIdInput):
         logging.info("Obteniendo transacciones")
 
         response = {}
@@ -59,7 +59,7 @@ class PropexitoService:
             "Content-Type": "application/json"
         }
         data = {
-            "reference_id": str(transaction_id)
+            "reference_id": str(request["transaction_id"])
         }
 
         try:
