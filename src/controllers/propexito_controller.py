@@ -7,6 +7,8 @@ from ..dto import (
     createUrlLatamcashierInputSchema,
     getUserByExternalUserIdInput,
     getUserByExternalUserIdInputSchema,
+    getTransactionByTransactionIdInput,
+    getTransactionByTransactionIdInputSchema,
 )
 from ..service.propexito_service import PropexitoService
 
@@ -43,13 +45,15 @@ class PropexitoController(MethodView):
         response = PropexitoService().generate_url_latamcashier(request)
         return response
 
-    @propexito.route("/get-transactions", methods=["GET"])
-    def get():
-        """Get transactions"""
-        response = PropexitoService().get_transactions()
+    @propexito.route("/get-transactions-by-transaction-id", methods=["GET"])
+    @propexito.arguments(getTransactionByTransactionIdInputSchema, location="query")
+    def get_transactions_by_transaction_id(body: getTransactionByTransactionIdInputSchema):
+        """Get transactions by transaction id"""
+        request = getTransactionByTransactionIdInput.create(body)
+        response = PropexitoService().get_transactions_by_transaction_id(request)
         return response
     
-    @propexito.route("/get-user-by-id", methods=["GET"])
+    @propexito.route("/get-user-by-id", methods=["GET"], doc=False)
     @propexito.arguments(getUserByExternalUserIdInputSchema, location="query")
     def get_user_by_id(body: getUserByExternalUserIdInputSchema):
         """Get user by id"""

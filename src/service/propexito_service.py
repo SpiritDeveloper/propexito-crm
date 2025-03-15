@@ -43,20 +43,24 @@ class PropexitoService:
 
         return response
 
-    def get_transactions(self):
+    def get_transactions_by_transaction_id(self, transaction_id: str):
         logging.info("Obteniendo transacciones")
 
         response = {}
         response["success"] = True
         response["message"] = "Transacciones obtenidas correctamente"
-        response["transactions"] = []
+        response["transactions"] = {}
 
-        url = f"{self.configuration_microservice}/transactions/by/{self.page}"
+        url = f"{self.configuration_microservice}/transactions/review/status/reference_transaction"
 
         headers = {"accept": "application/json"}
 
+        body = {
+            "reference_id": transaction_id
+        }
+
         try:
-            api_response = requests.get(url, headers=headers)
+            api_response = requests.post(url, headers=headers, json=body)
             api_response.raise_for_status()
             response["transactions"] = api_response.json()
         except requests.exceptions.RequestException as e:
