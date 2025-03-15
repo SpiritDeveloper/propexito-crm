@@ -59,7 +59,7 @@ class PropexitoService:
             "Content-Type": "application/json"
         }
         data = {
-            "reference_id": transaction_id
+            "reference_id": str(transaction_id)
         }
 
         try:
