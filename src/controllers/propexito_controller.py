@@ -52,8 +52,8 @@ class PropexitoController(MethodView):
         request = getTransactionByTransactionIdInput.create(body)
         response = PropexitoService().get_transactions_by_transaction_id(request)
         return response
-    
-    @propexito.route("/get-user-by-id", methods=["GET"], doc=False)
+   
+    @propexito.route("/get-user-by-id", methods=["GET"])
     @propexito.arguments(getUserByExternalUserIdInputSchema, location="query")
     def get_user_by_id(body: getUserByExternalUserIdInputSchema):
         """Get user by id"""
